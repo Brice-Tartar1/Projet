@@ -1,15 +1,13 @@
+# mon-projet-chart/templates/database-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "sql-chart.fullname" . }}
-  labels:
-    {{- include "sql-chart.labels" . | nindent 4 }}
+  name: {{ .Release.Name }}-service
+  namespace: project
 spec:
-  type: {{ .Values.service.type }}
-  ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
-      protocol: TCP
-      name: http
   selector:
-    {{- include "sql-chart.selectorLabels" . | nindent 4 }}
+    app: project
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
